@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Add Post</title>
+      <style>
+        body {
+          font-family: 'Roboto', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #b1baff;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          color: #3c2f41;
+        }
+
+        nav {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 10px 20px;
+          background-color: #3c2f41;
+          border-bottom: 1px solid #ddd;
+          width: 100%;
+        }
+
+        nav button {
+          margin-right: 10px;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #fffefb;
+          color: #3c2f41;
+        }
+
+        .calendar-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          width: 100%;
+          margin-top: 20px;
+        }
+
+        .calendar-header {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .calendar-header select,
+        .calendar-header button {
+          margin: 0 5px;
+          padding: 8px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #fffefb;
+          color: #3c2f41;
+        }
+
+        #calendar {
+          background-color: #fffefb;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          transition: box-shadow 0.3s ease;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          border: 1px solid #eee;
+          padding: 10px;
+          text-align: center;
+          transition: background-color 0.2s ease;
+          position: relative;
+          cursor: pointer;
+        }
+
+        th {
+          background-color: #f9f9f9;
+          font-weight: 600;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 10px 0 0 0;
+        }
+
+        li {
+          font-size: 0.9em;
+          margin-bottom: 4px;
+          color: #555;
+        }
+
+        td:hover {
+          background-color: #f0f0f0;
+        }
+
+        #calendar:hover {
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+        .file-input-container {
+          margin-top: 20px;
+          text-align: center;
+        }
+        .hidden {
+          display: none;
+        }
+        .add-post-container {
+          position: relative;
+        }
+        .add-post-button {
+          padding: 8px 12px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #c931f5;
+          color: #fffefb;
+        }
+        .post-type-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: #fffefb;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px 0;
+          display: none;
+          z-index: 100;
+        }
+        .post-type-dropdown.show {
+          display: block;
+        }
+        .post-type-dropdown button {
+          display: block;
+          width: 100%;
+          padding: 8px 15px;
+          text-align: left;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          color: #3c2f41;
+          border-radius: 16px;
+        }
+        .post-type-dropdown button:hover {
+          background-color: #f0f0f0;
+        }
+        .post-form-container {
+          background-color: #fffefb;
+          border: 1px solid #ddd;
+          border-radius: 8px;
+          padding: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-left: 20px;
+          margin-top: 40px;
+        }
+        .post-form-container textarea,
+        .post-form-container input[type="file"] {
+          margin-bottom: 15px;
+          padding: 10px;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          width: 300px;
+          font-size: 1em;
+          color: #3c2f41;
+        }
+        .post-form-container button {
+          padding: 10px 15px;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          cursor: pointer;
+          background-color: #b1baff;
+          color: #3c2f41;
+          border: none;
+          transition: background-color 0.3s ease;
+        }
+        .post-form-container button:hover {
+          background-color: #0056b3;
+        }
+        .post-form-container .hidden {
+          display: none;
+        }
+        .post-form-container label.hidden {
+          display: none;
+        }
+        .social-media-icons {
+          display: flex;
+          margin-bottom: 15px;
+        }
+        .social-media-icons .social-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #ddd;
+          margin-right: 10px;
+          cursor: pointer;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+        }
+        .social-media-icons .social-icon.selected {
+          background-color: #007bff;
+          color: #fffefb;
+        }
+        .social-media-icons .social-icon span {
+          font-size: 1.2em;
+        }
+        .social-media-icons .social-icon .remove-icon {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          font-size: 0.7em;
+          background-color: red;
+          color: #fffefb;
+          border-radius: 50%;
+          width: 13px;
+          height: 13px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border: 1px solid #ddd;
+        }
+        .gmb-error {
+          color: red;
+          font-size: 0.8em;
+          margin-top: 15px;
+        }
+        .selected-files-container {
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 10px;
+        }
+        .selected-files-container .selected-file {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin-right: 10px;
+          margin-bottom: 10px;
+        }
+        .selected-files-container .selected-file .file-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: #ddd;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 5px;
+          position: relative;
+        }
+        .selected-files-container .selected-file .file-icon img,
+        .selected-files-container .selected-file .file-icon video {
+          max-width: 100%;
+          max-height: 100%;
+          border-radius: 50%;
+        }
+        .selected-files-container .selected-file .file-icon .remove-icon {
+          position: absolute;
+          top: -5px;
+          right: -5px;
+          font-size: 0.7em;
+          background-color: red;
+          color: #fffefb;
+          border-radius: 50%;
+          width: 13px;
+          height: 13px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          border: 1px solid #ddd;
+        }
+        .selected-files-container .selected-file .file-name {
+          font-size: 0.8em;
+          text-align: center;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 80px;
+        }
+        .selected-files-container .selected-file:hover .file-name {
+          white-space: normal;
+          overflow: visible;
+          text-overflow: inherit;
+        }
+      </style>
+    </head>
+    <body>
+      <nav>
+        <div class="add-post-container">
+          <button class="add-post-button" id="addPostBtn">Add Post</button>
+          <div class="post-type-dropdown" id="postTypeDropdown">
+            <button data-type="story">Story</button>
+            <button data-type="post">Post</button>
+            <button data-type="reel">Reel</button>
+          </div>
+        </div>
+      </nav>
+      <div style="display: flex; width: 100%; align-items: flex-start;">
+        <div class="post-form-container">
+          <div class="social-media-icons">
+            <div class="social-icon selected" data-platform="facebook"><span>F</span><span class="remove-icon">x</span></div>
+            <div class="social-icon selected" data-platform="instagram"><span>I</span><span class="remove-icon">x</span></div>
+            <div class="social-icon selected" data-platform="gmb"><span>G</span><span class="remove-icon">x</span></div>
+            <div class="social-icon selected" data-platform="linkedin"><span>in</span><span class="remove-icon">x</span></div>
+          </div>
+          <label for="postText" class="post-text-label">What do you want to say?</label>
+          <textarea id="postText" placeholder="Add post text"></textarea>
+          <input type="file" id="postMedia" multiple>
+          <div class="selected-files-container" id="selectedFilesContainer"></div>
+          <div id="gmbError" class="gmb-error hidden">You can only select one media file for GMB.</div>
+          <div id="reelCheckbox" class="hidden">
+            <input type="checkbox" id="isReel">
+            <label for="isReel">Post as Reel</label>
+          </div>
+          <input type="hidden" id="selectedDate" />
+          <button id="submitPostBtn">Submit</button>
+        </div>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button id="prevYearBtn">&lt;&lt;</button>
+            <button id="prevMonthBtn">&lt;</button>
+            <select id="monthSelect"></select>
+            <select id="yearSelect"></select>
+            <button id="nextMonthBtn">&gt;</button>
+            <button id="nextYearBtn">&gt;&gt;</button>
+          </div>
+          <div id="calendar"></div>
+        </div>
+      </div>
+      <script type="module" src="/main.js"></script>
+      <script  src="/post-form.js"></script>
+    </body>
+    </html>

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Social Media File Organizer</title>
+      <style>
+        body {
+          font-family: 'Roboto', sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #b1baff;
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+          color: #3c2f41;
+        }
+
+        nav {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          padding: 10px 20px;
+          background-color: #3c2f41;
+          border-bottom: 1px solid #ddd;
+          width: 100%;
+        }
+
+        nav button {
+          margin-right: 10px;
+          padding: 8px 12px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #fffefb;
+          color: #3c2f41;
+        }
+
+        .calendar-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          width: 100%;
+          margin-top: 20px;
+        }
+
+        .calendar-header {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-bottom: 10px;
+        }
+
+        .calendar-header select,
+        .calendar-header button {
+          margin: 0 5px;
+          padding: 8px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #fffefb;
+          color: #3c2f41;
+        }
+
+        #calendar {
+          background-color: #fffefb;
+          border-radius: 12px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          padding: 20px;
+          transition: box-shadow 0.3s ease;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+        }
+
+        th, td {
+          border: 1px solid #eee;
+          padding: 10px;
+          text-align: center;
+          transition: background-color 0.2s ease;
+          position: relative;
+          cursor: pointer;
+        }
+
+        th {
+          background-color: #f9f9f9;
+          font-weight: 600;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 10px 0 0 0;
+        }
+
+        li {
+          font-size: 0.9em;
+          margin-bottom: 4px;
+          color: #555;
+        }
+
+        td:hover {
+          background-color: #f0f0f0;
+        }
+
+        #calendar:hover {
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+        .file-input-container {
+          margin-top: 20px;
+          text-align: center;
+        }
+        .hidden {
+          display: none;
+        }
+        .add-post-container {
+          position: relative;
+        }
+        .add-post-button {
+          padding: 8px 12px;
+          border: none;
+          border-radius: 16px;
+          cursor: pointer;
+          background-color: #c931f5;
+          color: #fffefb;
+        }
+        .post-type-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          background-color: #fffefb;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          padding: 5px 0;
+          display: none;
+          z-index: 100;
+        }
+        .post-type-dropdown.show {
+          display: block;
+        }
+        .post-type-dropdown button {
+          display: block;
+          width: 100%;
+          padding: 8px 15px;
+          text-align: left;
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          color: #3c2f41;
+          border-radius: 16px;
+        }
+        .post-type-dropdown button:hover {
+          background-color: #f0f0f0;
+        }
+      </style>
+    </head>
+    <body>
+      <nav>
+        <div class="add-post-container">
+          <button class="add-post-button" id="addPostBtn">Add Post</button>
+          <div class="post-type-dropdown" id="postTypeDropdown">
+            <button data-type="story">Story</button>
+            <button data-type="post">Post</button>
+            <button data-type="reel">Reel</button>
+          </div>
+        </div>
+      </nav>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button id="prevYearBtn">&lt;&lt;</button>
+          <button id="prevMonthBtn">&lt;</button>
+          <select id="monthSelect"></select>
+          <select id="yearSelect"></select>
+          <button id="nextMonthBtn">&gt;</button>
+          <button id="nextYearBtn">&gt;&gt;</button>
+        </div>
+        <div id="calendar"></div>
+      </div>
+      <script type="module" src="/main.js"></script>
+    </body>
+    </html>
